@@ -16,16 +16,13 @@ Para guardar las mascotas se utiliza un `vector<Mascota>`, ya que permite almace
 También se utiliza la clase `Mascota`, que contiene los datos de cada mascota: ID, nombre, especie, raza, edad y tamaño.
 
 ## Algoritmo de ordenamiento
-
-Se utilizó **Merge Sort** porque es uno de los algoritmos que vimos en clase y funciona bien para ordenar los datos del programa.
+Se utiliza Merge Sort para ordenar las mascotas. Se eligió porque permite dividir la información en partes más pequeñas, ordenarlas y después unirlas nuevamente de forma ordenada.
 
 La complejidad de Merge Sort es:
 
 Mejor caso: O(n log n)
 Caso promedio: O(n log n)
 Peor caso: O(n log n)
-
-Merge Sort divide los datos en partes más pequeñas y después las vuelve a unir en el orden correcto. Su complejidad es **O(n log n)** en el mejor, promedio y peor caso.
 
 En el programa se utiliza para ordenar las mascotas por nombre, edad, especie y raza.
 
