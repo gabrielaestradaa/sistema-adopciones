@@ -1,6 +1,5 @@
 # sistema-adopciones
 # Proyecto: Sistema de Ordenamiento de Mascotas en Refugio
-# Sistema de Adopciones
 
 ## Descripción
 
