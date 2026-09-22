@@ -1,4 +1,5 @@
 # sistema-adopciones
+
 # Proyecto: Sistema de Ordenamiento de Mascotas en Refugio
 
 ## Descripción
@@ -16,21 +17,22 @@ Para guardar las mascotas se utiliza un `vector<Mascota>`, ya que permite almace
 También se utiliza la clase `Mascota`, que contiene los datos de cada mascota: ID, nombre, especie, raza, edad y tamaño.
 
 ## Algoritmo de ordenamiento
+
 Se utiliza Merge Sort para ordenar las mascotas. Se eligió porque permite dividir la información en partes más pequeñas, ordenarlas y después unirlas nuevamente de forma ordenada.
 
 La complejidad de Merge Sort es:
 
-Mejor caso: O(n log n)
-Caso promedio: O(n log n)
-Peor caso: O(n log n)
+* Mejor caso: **O(n log n)**
+* Caso promedio: **O(n log n)**
+* Peor caso: **O(n log n)**
 
 En el programa se utiliza para ordenar las mascotas por nombre, edad, especie y raza.
 
 ## Lectura y escritura de archivos
 
-Los datos se encuentran en el archivo `mascotas.txt`. Al iniciar el programa, se utiliza `ifstream` para leer la información y crear los objetos `Mascota`.
+Los datos se encuentran en el archivo `mascotas.csv`. Al iniciar el programa, se utiliza `ifstream` para leer la información y crear los objetos `Mascota`.
 
-También se utiliza `ofstream` para guardar los datos nuevamente en el archivo cuando se selecciona la opción de guardar.
+También se utiliza `ofstream` para guardar los datos ordenados en el archivo `mascotas_ordenado.csv` cuando se selecciona la opción de guardar.
 
 ## Complejidad
 
@@ -44,15 +46,13 @@ Las principales operaciones del programa tienen estas complejidades:
 
 Merge Sort utiliza **O(n)** de espacio extra debido a los vectores temporales que utiliza durante el ordenamiento.
 
-
 ## Autor
 
 Gabriela Estrada Guerrero
 
-
 ## Cómo compilar y ejecutar
+
 ```bash
 g++ -std=c++17 -o programa main.cpp mascota.cpp ordenamiento.cpp
 ./programa
 ```
-
