@@ -1,87 +1,178 @@
 # sistema-adopciones
 # Proyecto: Sistema de Ordenamiento de Mascotas en Refugio
 
-## Problema que resuelve
-Un refugio de animales necesita gestionar su lista de mascotas disponibles y
-poder consultarlas ordenadas por distintos criterios (nombre, edad, especie,
-raza) para atender más rápido a las personas que buscan adoptar. El programa
-carga los datos desde un archivo CSV, permite ordenarlos bajo demanda y
-guarda el resultado en disco.
+# Sistema de Adopciones
 
-## Estructuras de datos utilizadas
-- **Clase `Mascota`**: encapsula los atributos de cada registro (id, nombre,
-  especie, raza, edad, tamaño) con getters y un método `mostrar()`.
-  Complejidad de cualquier getter: **O(1)**.
-- **`std::vector<Mascota>`**: contenedor dinámico usado para almacenar todas
-  las mascotas cargadas del archivo. Se eligió sobre una lista enlazada
-  porque el programa necesita acceso indexado O(1) (indispensable para
-  Merge Sort, que divide por índices) y porque el tamaño del dataset es
-  conocido/moderado, por lo que el costo de un posible *resize* interno es
-  amortizado O(1) y no afecta el rendimiento general.
+## Descripción
 
-## Algoritmo de ordenamiento: Merge Sort
-Se implementó **Merge Sort** de forma independiente para cada criterio
-(nombre, edad, especie, raza) en `ordenamiento.cpp`.
+Este proyecto es un programa en C++ que sirve para organizar información de mascotas de un refugio.
 
-**¿Por qué Merge Sort y no otro algoritmo?**
-- Garantiza **O(n log n)** en el peor caso, a diferencia de algoritmos como
-  Quick Sort (O(n²) en el peor caso) o Bubble/Insertion Sort (O(n²) siempre).
-- Es **estable**: si dos mascotas tienen el mismo valor en el criterio de
-  orden (ej. dos con la misma edad), conservan su orden relativo original.
-  Esto es deseable en un catálogo real, donde no se quiere "revolver"
-  registros que ya coincidían.
-- El dataset se recarga o reordena con frecuencia (cada vez que el usuario
-  cambia de criterio), por lo que un algoritmo con complejidad garantizada
-  y predecible es preferible a uno con mejor caso promedio pero peor caso
-  inestable.
+El programa guarda los datos de las mascotas en un archivo y permite mostrarlos y ordenarlos de diferentes maneras.
 
-## Análisis de complejidad
+## Problema
 
-### Merge Sort (para cualquiera de los 4 criterios)
-- **Tiempo:** cada llamada recursiva divide el arreglo en dos mitades →
-  `T(n) = 2T(n/2) + O(n)` (el `O(n)` es el costo de `merge`, que recorre
-  ambas mitades una vez). Por el teorema maestro, esto da:
-  - Mejor caso: **O(n log n)**
-  - Caso promedio: **O(n log n)**
-  - Peor caso: **O(n log n)**
-- **Espacio:** `merge` crea vectores temporales `izquierda` y `derecha` en
-  cada llamada → **O(n)** espacio auxiliar (más O(log n) de la pila de
-  recursión).
-- Como hay 4 versiones (una por campo), cada una tiene la misma complejidad;
-  el usuario solo ejecuta **una** por operación, así que el costo de una
-  sola invocación del programa (elegir un criterio y ordenar) es O(n log n),
-  no 4·O(n log n).
+Un refugio puede tener información de varias mascotas y puede ser difícil organizarla cuando hay muchos datos.
 
-### Lectura de archivo (`cargarMascotas`)
-Recorre cada línea del CSV una vez y hace `push_back` por cada una:
-**O(n)** en tiempo, **O(n)** en espacio (el vector resultante).
+Por eso, el programa permite guardar la información de las mascotas en un solo archivo y ordenarla por diferentes características para que sea más fácil consultarla.
 
-### Escritura de archivo (`guardarMascotas`)
-Recorre el vector una vez y escribe cada línea: **O(n)** en tiempo.
+## Datos de las mascotas
 
-### Acceso/consulta (`mostrarTodas`, getters)
-Recorrer y mostrar todas las mascotas es **O(n)**; acceder a un atributo de
-una mascota puntual es **O(1)**.
+Cada mascota tiene los siguientes datos:
 
-### Complejidad total del programa
-Por cada ciclo del menú (cargar → ordenar → mostrar/guardar), el costo
-dominante es el ordenamiento: **O(n log n) en tiempo, O(n) en espacio**,
-ya que O(n) (lectura), O(n) (escritura) y O(n) (mostrar) quedan absorbidos
-por el término O(n log n).
+* ID
+* Nombre
+* Especie
+* Raza
+* Edad
+* Tamaño
 
-## Mecanismos implementados
-- **Lectura:** `cargarMascotas()` parsea `mascotas.csv` línea por línea con
-  `stringstream` y construye el vector de objetos `Mascota`.
-- **Escritura:** `guardarMascotas()` vuelca el vector (ya ordenado) a
-  `mascotas_ordenado.csv`, para no perder el trabajo de ordenar al cerrar
-  el programa.
-- **Consulta:** el menú permite ordenar y mostrar por Nombre, Edad, Especie
-  o Raza, y recargar el archivo original sin reiniciar el programa.
+## ¿Qué puede hacer el programa?
+
+El programa tiene un menú principal con las siguientes opciones:
+
+1. Mostrar mascotas.
+2. Ordenar mascotas.
+3. Guardar mascotas.
+4. Salir.
+
+Al elegir la opción de ordenar, se puede ordenar la información por:
+
+* Nombre
+* Edad
+* Especie
+* Raza
+
+## Estructura de datos
+
+Para guardar las mascotas se utiliza un `vector<Mascota>`.
+
+Se eligió un `vector` porque permite guardar varias mascotas y acceder a ellas mediante sus posiciones.
+
+También se creó una clase llamada `Mascota`, donde se guardan los datos de cada mascota.
+
+## Ordenamiento
+
+Para ordenar las mascotas se utilizó **Merge Sort**.
+
+Se eligió este algoritmo porque es uno de los algoritmos de ordenamiento que vimos en clase y porque funciona bien para ordenar una cantidad de datos que puede ir aumentando.
+
+Otra razón es que Merge Sort tiene una complejidad de **O(n log n)** en el mejor, promedio y peor caso, por lo que mantiene un buen rendimiento aunque aumente la cantidad de mascotas.
+
+Además, utiliza recursión. El algoritmo divide los datos en partes más pequeñas y después las vuelve a unir en el orden correcto.
+
+En este proyecto se utiliza Merge Sort para ordenar las mascotas por nombre, edad, especie y raza.
+
+El algoritmo utiliza **O(n)** de espacio extra porque necesita crear vectores temporales durante el ordenamiento.
+
+## Lectura y escritura de archivos
+
+Los datos de las mascotas se encuentran en el archivo:
+
+```text
+mascotas.txt
+```
+
+Al iniciar el programa, se leen los datos de este archivo utilizando `ifstream`.
+
+También se puede guardar la información utilizando `ofstream`.
+
+De esta manera, los datos de las mascotas no tienen que estar escritos directamente en el código.
+
+## Complejidad
+
+Las principales funciones del programa tienen las siguientes complejidades:
+
+* Cargar mascotas: **O(n)**
+* Mostrar mascotas: **O(n)**
+* Guardar mascotas: **O(n)**
+* Ordenar con Merge Sort: **O(n log n)**
+* Obtener un dato de una mascota: **O(1)**
+
+La complejidad de espacio de Merge Sort es **O(n)**.
+
+## Archivos del proyecto
+
+```text
+sistema-adopciones/
+│
+├── main.cpp
+├── mascota.h
+├── mascota.cpp
+├── ordenamiento.h
+├── ordenamiento.cpp
+└── mascotas.txt
+```
+
+### main.cpp
+
+Contiene el menú principal y las funciones para cargar, mostrar y guardar las mascotas.
+
+### mascota.h
+
+Contiene la definición de la clase `Mascota`.
+
+### mascota.cpp
+
+Contiene la implementación de la clase `Mascota`.
+
+### ordenamiento.h
+
+Contiene las declaraciones de las funciones de Merge Sort.
+
+### ordenamiento.cpp
+
+Contiene la implementación de Merge Sort para los diferentes tipos de ordenamiento.
+
+### mascotas.txt
+
+Contiene los datos de las mascotas que utiliza el programa.
+
+## Competencias
+
+**SICT0301:** Se analiza la complejidad de Merge Sort y de las principales funciones del programa.
+
+**SICT0302:** Se utiliza Merge Sort para ordenar las mascotas y un `vector` para guardar la información.
+
+**SICT0303:** El programa puede leer y guardar información en un archivo utilizando `ifstream` y `ofstream`.
+
+**SEG0701:** El programa busca facilitar la organización de información de mascotas mediante un menú sencillo.
+
+## Cómo ejecutar el programa
+
+Para compilar el programa se utiliza:
+
+```bash
+g++ main.cpp mascota.cpp ordenamiento.cpp -o adopciones
+```
+
+Para ejecutarlo:
+
+```bash
+./adopciones
+```
+
+Es necesario que el archivo `mascotas.txt` se encuentre en la misma carpeta que los archivos del programa.
+
+## Tecnologías utilizadas
+
+* C++
+* Programación Orientada a Objetos
+* `vector`
+* `ifstream`
+* `ofstream`
+* `stringstream`
+* Recursión
+* Merge Sort
+* Git y GitHub
+
+## Autor
+
+Gabriela Estrada Guerrero
+
 
 ## Cómo compilar y ejecutar
 ```bash
 g++ -std=c++17 -o programa main.cpp mascota.cpp ordenamiento.cpp
 ./programa
 ```
-El archivo `mascotas.csv` debe estar en la misma carpeta que el ejecutable.
 
