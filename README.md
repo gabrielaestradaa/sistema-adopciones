@@ -52,7 +52,7 @@ Gabriela Estrada Guerrero
 
 ## Cómo compilar y ejecutar
 
-```bash
+
 g++ -std=c++17 -o programa main.cpp mascota.cpp ordenamiento.cpp
 ./programa
-```
+
